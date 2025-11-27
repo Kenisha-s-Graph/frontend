@@ -4,32 +4,30 @@ const route = useRoute()
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
-    label: 'Dashboard',
+    label: 'Museum',
     to: '/',
     active: route.path === '/'
   },
   {
-    label: 'Cypher Query',
+    label: 'Query Cypher',
     to: '/cypher',
     active: route.path.startsWith('/cypher')
   },
   {
-    label: 'Search',
+    label: 'Pencarian',
     to: '/search',
     active: route.path.startsWith('/search')
-  },
-  {
-    label: 'Infobox',
-    to: '/infobox',
-    active: route.path.startsWith('/infobox')
   }
 ])
 </script>
 
 <template>
-  <UHeader>
+  <UHeader class="border-b border-amber-200 dark:border-amber-900/50">
     <template #title>
-      <span class="font-bold text-primary">Kenisha's Graph</span>
+      <div class="flex items-center gap-2">
+        <UIcon name="i-heroicons-building-library" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
+        <span class="font-bold text-amber-900 dark:text-amber-100">HistoPedia</span>
+      </div>
     </template>
     <UNavigationMenu :items="items" />
     <template #right>
