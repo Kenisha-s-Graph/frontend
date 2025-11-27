@@ -11,7 +11,7 @@ useSeoMeta({
 
 <template>
   <div class="relative min-h-screen">
-    <UContainer class="py-16">
+    <div class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-8">
         <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
           Cypher Query Interface
@@ -21,6 +21,6 @@ useSeoMeta({
         </p>
       </div>
       <CypherQueryEditor />
-    </UContainer>
+    </div>
   </div>
 </template>

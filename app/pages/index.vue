@@ -13,7 +13,7 @@ useSeoMeta({
 <template>
   <div class="relative min-h-screen">
     <!-- Hero Section -->
-    <UContainer class="py-16 sm:py-24">
+    <div class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
       <div class="text-center">
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
           Jelajahi <span class="text-primary">Knowledge Graph</span> Sejarah
@@ -74,6 +74,6 @@ useSeoMeta({
           </div>
         </UCard>
       </div>
-    </UContainer>
+    </div>
   </div>
 </template>
