@@ -114,7 +114,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-// Ganti dengan implementasi fetchCypherQuery milikmu
 import { useCypherQuery } from "~/data/cypher-query";
 
 const query = ref("MATCH (q:Person) RETURN q AS Person LIMIT 2");
@@ -166,12 +165,10 @@ function formatCell(val: any) {
 }
 
 function isNeo4jObject(val: any, col: string) {
-  // Jika value adalah object dan kolomnya huruf besar (misal: Person, Organization)
   return val && typeof val === 'object' && !Array.isArray(val) && /^[A-Z]/.test(col);
 }
 
 function formatNeo4jProps(obj: Record<string, any>) {
-  // Format: {key1: value1, key2: value2, ...}
   if (!obj || typeof obj !== 'object') return '';
   const props = Object.entries(obj)
     .map(([k, v]) => `${k}: ${JSON.stringify(v)}`)
@@ -196,7 +193,7 @@ const runQuery = async () => {
     const res = await fetchCypherQuery({ query: query.value });
     results.value = JSON.stringify(res.results, null, 2);
   } catch (e: any) {
-    error.value = e.message || "Failed to execute query";
+    error.value = e.detail || e.message || "Failed to execute query";
   } finally {
     loading.value = false;
   }

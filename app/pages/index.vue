@@ -14,10 +14,6 @@ useSeoMeta({
     <!-- Hero Section -->
     <UContainer class="py-16 sm:py-24">
       <div class="text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 text-sm font-medium mb-6">
-          <UIcon name="i-heroicons-building-library" class="w-5 h-5" />
-          <span>Digital Museum Collection</span>
-        </div>
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-stone-900 dark:text-stone-50">
           Jelajahi <span class="text-amber-700 dark:text-amber-500">Museum Knowledge Graph</span>
         </h1>
@@ -30,7 +26,6 @@ useSeoMeta({
     <!-- Cypher Query Feature - Image Left -->
     <UContainer class="py-16 sm:py-24">
       <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
-        <!-- Left: Laptop Image -->
         <div class="lg:col-span-6 mb-12 lg:mb-0">
           <div class="relative">
             <div class="absolute inset-0 bg-gradient-to-br from-amber-400/20 to-orange-600/20 rounded-lg blur-2xl"></div>
@@ -44,7 +39,6 @@ useSeoMeta({
           </div>
         </div>
 
-        <!-- Right: Content -->
         <div class="lg:col-span-6">
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-stone-900 dark:text-stone-50">
             Eksplorasi Koleksi <span class="text-amber-700 dark:text-amber-500">dengan Query Cypher</span>
@@ -109,7 +103,6 @@ useSeoMeta({
     <!-- Search Feature - Image Right -->
     <UContainer class="py-16 sm:py-24 bg-gradient-to-b from-amber-50/50 to-orange-50/30 dark:from-stone-900/50 dark:to-stone-900/30">
       <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
-        <!-- Left: Content -->
         <div class="lg:col-span-6 order-2 lg:order-1 mt-12 lg:mt-0">
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-stone-900 dark:text-stone-50">
             Pencarian <span class="text-amber-700 dark:text-amber-500">Artefak & Pameran</span>
@@ -169,7 +162,6 @@ useSeoMeta({
           </UButton>
         </div>
 
-        <!-- Right: Laptop Image -->
         <div class="lg:col-span-6 order-1 lg:order-2">
           <div class="relative">
             <div class="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-amber-600/20 rounded-lg blur-2xl"></div>
