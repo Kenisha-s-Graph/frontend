@@ -15,12 +15,4 @@ export const features = [
     available: true,
     route: '/cypher'
   },
-  {
-    id: 3,
-    title: 'Info Box Entitas',
-    description: 'Lihat detail lengkap dan atribut penting dari entitas yang dipilih dalam tampilan info box yang ringkas.',
-    icon: 'lucide:info',
-    available: false,
-    route: '/infobox'
-  }
 ]
