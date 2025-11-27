@@ -17,7 +17,9 @@ export const useCypherQuery = () => {
     } catch {}
 
     if (!response.ok) {
-      throw new Error(result?.message || "Failed to fetch cypher query");
+      const err = new Error(result?.detail || "Failed to fetch cypher query");
+      (err as any).detail = result?.detail;
+      throw err;
     }
 
     return result as CypherQueryResponse;
