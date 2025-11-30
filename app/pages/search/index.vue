@@ -205,10 +205,32 @@ const loadMore = async () => {
   }
 };
 
+const navigateToInfobox = (result: PersonSearchResult | EventSearchResult) => {
+  console.log('Navigating to infobox with result:', result);
+  
+  if (!result.element_id) {
+    console.error('No element_id found in result');
+    return;
+  }
+  
+  console.log('Using element_id:', result.element_id);
+  navigateTo(`/infobox/${encodeURIComponent(result.element_id)}`);
+};
+
 const selectSuggestion = (suggestion: SuggestionItem) => {
   searchQuery.value = suggestion.text;
   showSuggestions.value = false;
-  handleSearch();
+  
+  console.log('Selected suggestion:', suggestion);
+  
+  if (!suggestion.element_id) {
+    console.error('No element_id found in suggestion');
+    handleSearch();
+    return;
+  }
+  
+  console.log('Using element_id:', suggestion.element_id);
+  navigateTo(`/infobox/${encodeURIComponent(suggestion.element_id)}`);
 };
 
 const handleKeydown = (event: KeyboardEvent) => {
@@ -527,8 +549,9 @@ const scrollToTop = () => {
               <div class="grid gap-6 md:grid-cols-2">
                 <UCard
                   v-for="result in filteredResults"
-                  :key="`${result.type}-${result.id}-${result.context?.country}`"
-                  class="hover:shadow-lg transition-shadow"
+                  :key="`${result.type}-${result.element_id}-${result.context?.country}`"
+                  class="hover:shadow-lg transition-shadow cursor-pointer"
+                  @click="navigateToInfobox(result)"
                 >
                   <div class="flex gap-4">
                     <!-- Image -->

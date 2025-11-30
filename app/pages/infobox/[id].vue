@@ -1,0 +1,433 @@
+<script setup lang="ts">
+import type { InfoboxResponse, FormattedFact, RelatedNode } from '~/types/infobox';
+
+const route = useRoute();
+const { fetchInfobox } = useInfobox();
+
+const loading = ref(true);
+const error = ref<string | null>(null);
+const rawData = ref<InfoboxResponse | null>(null);
+
+useSeoMeta({
+  title: 'Infobox - Museum Knowledge Graph',
+  ogTitle: 'Infobox - Museum Knowledge Graph',
+  description: 'Lihat informasi detail tokoh dan peristiwa sejarah.',
+  ogDescription: 'Lihat informasi detail tokoh dan peristiwa sejarah.'
+});
+
+watchEffect(async () => {
+  const id = route.params.id as string;
+  
+  
+  if (!id) {
+    error.value = 'ID tidak ditemukan di URL';
+    loading.value = false;
+    return;
+  }
+
+  try {
+    loading.value = true;
+    error.value = null;
+    
+    rawData.value = await fetchInfobox(id);
+  } catch (e: any) {
+    console.error('Error loading infobox:', e);
+    error.value = e.message || 'Gagal memuat data';
+  } finally {
+    loading.value = false;
+  }
+});
+
+const entityType = computed(() => {
+  if (!rawData.value) return 'other';
+  
+  if (rawData.value.labels.includes('Person')) return 'person';
+  if (rawData.value.labels.includes('Event')) return 'event';
+  if (rawData.value.labels.includes('Award')) return 'award';
+  if (rawData.value.labels.includes('City')) return 'city';
+  if (rawData.value.labels.includes('Country')) return 'country';
+  if (rawData.value.labels.includes('Dynasty')) return 'dynasty';
+  if (rawData.value.labels.includes('Occupation')) return 'occupation';
+  if (rawData.value.labels.includes('Position')) return 'position';
+  
+  return 'other';
+});
+
+const entityTypeLabel = computed(() => {
+  const labelMap: Record<string, string> = {
+    person: 'Tokoh Sejarah',
+    event: 'Peristiwa Sejarah',
+    award: 'Penghargaan',
+    city: 'Kota',
+    country: 'Negara',
+    dynasty: 'Dinasti',
+    occupation: 'Pekerjaan',
+    position: 'Posisi',
+    other: 'Lainnya'
+  };
+  return labelMap[entityType.value] || 'Entitas';
+});
+
+const entityTypeBadgeColor = computed<'error' | 'neutral' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | undefined>(() => {
+  const colorMap: Record<string, 'error' | 'neutral' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | undefined> = {
+    person: 'primary',
+    event: 'warning',
+    award: 'success',
+    city: 'info',
+    country: 'secondary',
+    dynasty: 'secondary',
+    occupation: 'neutral',
+    position: 'neutral',
+    other: 'neutral'
+  };
+  return colorMap[entityType.value] ?? 'neutral';
+});
+
+const entityName = computed(() => {
+  if (!rawData.value) return '';
+  return rawData.value.properties.full_name || rawData.value.properties.name || '';
+});
+
+const entityImage = computed(() => {
+  if (!rawData.value) return '/images/img-placeholder.jpg';
+  return rawData.value.properties.image_url || '/images/img-placeholder.jpg';
+});
+
+const entityDescription = computed(() => {
+  if (!rawData.value) return '';
+  return rawData.value.properties.abstract || 
+         rawData.value.properties.description || 
+         'Tidak ada deskripsi tersedia';
+});
+
+const facts = computed<FormattedFact[]>(() => {
+  if (!rawData.value) return [];
+  
+  const props = rawData.value.properties;
+  const formattedFacts: FormattedFact[] = [];
+  
+  const propertyMapping: Record<string, string> = {
+    full_name: 'Nama Lengkap',
+    birth_year: 'Tahun Lahir',
+    birth_date: 'Tanggal Lahir',
+    death_year: 'Tahun Wafat',
+    death_date: 'Tanggal Wafat',
+    death_place: 'Tempat Wafat',
+    cause_of_death: 'Sebab Kematian',
+    sex: 'Jenis Kelamin',
+    wikidata_qid: 'Wikidata ID',
+    article_id: 'Article ID',
+    article_languages: 'Bahasa Artikel',
+    page_views: 'Total Page Views',
+    average_views: 'Rata-rata Views',
+    historical_popularity_index: 'Indeks Popularitas',
+    // Event properties
+    date: 'Tanggal',
+    month: 'Bulan',
+    year: 'Tahun',
+    place_name: 'Tempat',
+    country: 'Negara',
+    event_type: 'Tipe Event',
+    impact: 'Dampak',
+    outcome: 'Hasil',
+    important_personalities: 'Tokoh Penting',
+    affected_population: 'Populasi Terpengaruh',
+    event_id: 'Event ID',
+    // Other properties
+    city: 'Kota',
+    occupation: 'Pekerjaan',
+    position: 'Posisi',
+    label: 'Label',
+    latitude: 'Latitude',
+    longitude: 'Longitude',
+    domain: 'Domain',
+    industry: 'Industri'
+  };
+
+  const skipProperties = ['image_url', 'description', 'abstract', 'name'];
+
+  Object.entries(props).forEach(([key, value]) => {
+    if (skipProperties.includes(key) || value === null || value === undefined) return;
+    
+    const label = propertyMapping[key] || key.split('_').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+    
+    let formattedValue = value;
+    
+    if (typeof value === 'number') {
+      formattedValue = value.toLocaleString('id-ID');
+    } else if (typeof value === 'string' && value.includes('T00:00:00Z')) {
+      formattedValue = new Date(value).toLocaleDateString('id-ID', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+    
+    formattedFacts.push({ label, value: String(formattedValue) });
+  });
+  
+  return formattedFacts;
+});
+
+const getNodeDisplayName = (node: RelatedNode): string => {
+  const props = node.properties;
+  
+  if (props.full_name) return props.full_name;
+  if (props.name) return props.name;
+  if (props.label) return props.label;
+  if (props.city) return props.city;
+  if (props.country) return props.country;
+  if (props.occupation) return props.occupation;
+  if (props.position) return props.position;
+  
+  // Jika tidak ada, coba ambil value pertama yang bukan null/undefined
+  const firstValue = Object.entries(props).find(([key, val]) => 
+    val !== null && 
+    val !== undefined && 
+    (typeof val === 'string' || typeof val === 'number')
+  );
+  
+  return firstValue ? String(firstValue[1]) : 'Unknown';
+};
+
+const getNodeType = (labels: string[]): string => {
+  if (labels.includes('Event')) return 'event';
+  if (labels.includes('Person')) return 'person';
+  if (labels.includes('Award')) return 'award';
+  if (labels.includes('City')) return 'city';
+  if (labels.includes('Country')) return 'country';
+  if (labels.includes('Dynasty')) return 'dynasty';
+  if (labels.includes('Occupation')) return 'occupation';
+  if (labels.includes('Position')) return 'position';
+  
+  return 'other';
+};
+
+const formatRelationship = (relationship: string): string => {
+  return relationship
+    .split('_')
+    .map(word => word.charAt(0) + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
+const getRelationIcon = (type: string) => {
+  const iconMap: Record<string, string> = {
+    person: 'i-heroicons-user',
+    event: 'i-heroicons-calendar',
+    award: 'i-heroicons-trophy',
+    city: 'i-heroicons-map-pin',
+    country: 'i-heroicons-globe-americas',
+    dynasty: 'i-heroicons-user-group',
+    occupation: 'i-heroicons-briefcase',
+    position: 'i-heroicons-shield-check',
+    other: 'i-heroicons-star'
+  };
+  return iconMap[type] || 'i-heroicons-link';
+};
+
+type BadgeColor = 'error' | 'neutral' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | undefined;
+
+const getRelationColor = (type: string): BadgeColor => {
+  const colorMap: Record<string, BadgeColor> = {
+    person: 'primary',
+    event: 'warning',
+    award: 'success',
+    city: 'info',
+    country: 'secondary',
+    dynasty: 'secondary',
+    occupation: 'neutral',
+    position: 'neutral',
+    other: 'neutral'
+  };
+  return colorMap[type] ?? 'neutral';
+};
+
+const getRelationLabel = (type: string): string => {
+  const labelMap: Record<string, string> = {
+    person: 'Tokoh',
+    event: 'Peristiwa',
+    award: 'Penghargaan',
+    city: 'Kota',
+    country: 'Negara',
+    dynasty: 'Dinasti',
+    occupation: 'Pekerjaan',
+    position: 'Posisi',
+    other: 'Lainnya'
+  };
+  return labelMap[type] || 'Lainnya';
+};
+
+const navigateToRelation = (node: RelatedNode) => {
+  navigateTo(`/infobox/${encodeURIComponent(node.element_id)}`);
+};
+</script>
+
+<template>
+  <div class="relative min-h-screen bg-amber-50/30 dark:bg-stone-950">
+    <div class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <!-- Back Button -->
+      <div class="mb-8">
+        <UButton
+          to="/search"
+          color="neutral"
+          variant="ghost"
+          icon="i-heroicons-arrow-left"
+          size="sm"
+        >
+          Kembali ke Pencarian
+        </UButton>
+      </div>
+
+      <!-- Loading State -->
+      <div v-if="loading" class="text-center py-16">
+        <UIcon name="i-heroicons-arrow-path" class="w-12 h-12 mx-auto text-amber-600 dark:text-amber-500 animate-spin mb-4" />
+        <p class="text-stone-600 dark:text-stone-400">Memuat data...</p>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="text-center py-16">
+        <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 mx-auto text-red-600 dark:text-red-500 mb-4" />
+        <h3 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+          Gagal Memuat Data
+        </h3>
+        <p class="text-stone-600 dark:text-stone-400 mb-6">{{ error }}</p>
+        <UButton to="/search" color="primary">
+          Kembali ke Pencarian
+        </UButton>
+      </div>
+
+      <!-- Content -->
+      <div v-else-if="rawData" class="grid lg:grid-cols-12 gap-8">
+        <!-- Main Content -->
+        <div class="lg:col-span-8">
+          <div class="bg-white dark:bg-stone-900 rounded-xl shadow-sm border border-amber-200 dark:border-amber-900/50 p-8">
+            <!-- Header -->
+            <div class="mb-8">
+              <UBadge
+                :color="entityTypeBadgeColor"
+                variant="subtle"
+                size="md"
+                class="mb-4"
+              >
+                {{ entityTypeLabel }}
+              </UBadge>
+              <h1 class="text-4xl font-bold text-stone-900 dark:text-stone-100 mb-4">
+                {{ entityName }}
+              </h1>
+            </div>
+
+            <!-- Description -->
+            <div class="prose dark:prose-invert max-w-none mb-8">
+              <p class="text-lg text-stone-700 dark:text-stone-300 leading-relaxed">
+                {{ entityDescription }}
+              </p>
+            </div>
+
+            <!-- Relations Section -->
+            <div v-if="rawData.related_nodes && rawData.related_nodes.length > 0" class="mt-12">
+              <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-100 mb-6 flex items-center gap-2">
+                <UIcon name="i-heroicons-link" class="w-6 h-6 text-amber-600 dark:text-amber-500" />
+                Relasi Terkait
+              </h2>
+              <div class="grid md:grid-cols-2 gap-4">
+                <UCard
+                  v-for="node in rawData.related_nodes"
+                  :key="node.element_id"
+                  class="hover:shadow-lg transition-shadow cursor-pointer"
+                  @click="navigateToRelation(node)"
+                >
+                  <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                      <img
+                        :src="node.properties.image_url || '/images/img-placeholder.jpg'"
+                        :alt="getNodeDisplayName(node)"
+                        class="w-16 h-16 object-cover rounded-lg border-2 border-amber-200 dark:border-amber-900"
+                        @error="(e) => (e.target as HTMLImageElement).src = '/images/img-placeholder.jpg'"
+                      />
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-start gap-2 mb-2">
+                        <UIcon
+                          :name="getRelationIcon(getNodeType(node.labels))"
+                          :class="{
+                            'text-blue-600 dark:text-blue-500': getNodeType(node.labels) === 'person',
+                            'text-orange-600 dark:text-orange-500': getNodeType(node.labels) === 'event',
+                            'text-green-600 dark:text-green-500': getNodeType(node.labels) === 'award',
+                            'text-cyan-600 dark:text-cyan-500': getNodeType(node.labels) === 'city',
+                            'text-purple-600 dark:text-purple-500': getNodeType(node.labels) === 'country' || getNodeType(node.labels) === 'dynasty',
+                            'text-stone-600 dark:text-stone-500': getNodeType(node.labels) === 'occupation' || getNodeType(node.labels) === 'position',
+                            'text-amber-600 dark:text-amber-500': getNodeType(node.labels) === 'other'
+                          }"
+                          class="w-4 h-4 mt-0.5 flex-shrink-0"
+                        />
+                        <div class="flex-1">
+                          <h3 class="font-semibold text-stone-900 dark:text-stone-100 text-sm">
+                            {{ getNodeDisplayName(node) }}
+                          </h3>
+                          <p class="text-xs text-stone-500 dark:text-stone-400 mt-1">
+                            {{ formatRelationship(node.relationship) }}
+                          </p>
+                        </div>
+                      </div>
+                      <UBadge
+                        :color="getRelationColor(getNodeType(node.labels))"
+                        variant="subtle"
+                        size="xs"
+                      >
+                        {{ getRelationLabel(getNodeType(node.labels)) }}
+                      </UBadge>
+                    </div>
+                  </div>
+                </UCard>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Infobox -->
+        <div class="lg:col-span-4">
+          <div class="sticky top-8">
+            <UCard class="overflow-hidden border-2 border-amber-200 dark:border-amber-900/50">
+              <!-- Image -->
+              <div class="mb-6">
+                <img
+                  :src="entityImage"
+                  :alt="entityName"
+                  class="w-full h-auto rounded-lg"
+                  @error="(e) => (e.target as HTMLImageElement).src = '/images/img-placeholder.jpg'"
+                />
+              </div>
+
+              <!-- Facts Table -->
+              <div v-if="facts.length > 0" class="space-y-4">
+                <div
+                  v-for="(fact, index) in facts"
+                  :key="index"
+                  class="border-b border-stone-200 dark:border-stone-800 pb-3 last:border-0"
+                >
+                  <dt class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-1">
+                    {{ fact.label }}
+                  </dt>
+                  <dd class="text-sm text-stone-900 dark:text-stone-100">
+                    {{ fact.value }}
+                  </dd>
+                </div>
+              </div>
+            </UCard>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>
