@@ -9,15 +9,14 @@ const error = ref<string | null>(null);
 const rawData = ref<InfoboxResponse | null>(null);
 
 useSeoMeta({
-  title: 'Infobox - Museum Knowledge Graph',
-  ogTitle: 'Infobox - Museum Knowledge Graph',
+  title: 'Infobox - Historical Knowledge Graph',
+  ogTitle: 'Infobox - Historical Knowledge Graph',
   description: 'Lihat informasi detail tokoh dan peristiwa sejarah.',
   ogDescription: 'Lihat informasi detail tokoh dan peristiwa sejarah.'
 });
 
 watchEffect(async () => {
   const id = route.params.id as string;
-  
   
   if (!id) {
     error.value = 'ID tidak ditemukan di URL';
@@ -182,7 +181,6 @@ const getNodeDisplayName = (node: RelatedNode): string => {
   if (props.occupation) return props.occupation;
   if (props.position) return props.position;
   
-  // Jika tidak ada, coba ambil value pertama yang bukan null/undefined
   const firstValue = Object.entries(props).find(([key, val]) => 
     val !== null && 
     val !== undefined && 
@@ -266,9 +264,9 @@ const navigateToRelation = (node: RelatedNode) => {
 
 <template>
   <div class="relative min-h-screen bg-amber-50/30 dark:bg-stone-950">
-    <div class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+    <div class="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       <!-- Back Button -->
-      <div class="mb-8">
+      <div class="mb-6">
         <UButton
           to="/search"
           color="neutral"
@@ -300,55 +298,108 @@ const navigateToRelation = (node: RelatedNode) => {
 
       <!-- Content -->
       <div v-else-if="rawData" class="grid lg:grid-cols-12 gap-8">
-        <!-- Main Content -->
+        <!-- Main Content - Infobox -->
         <div class="lg:col-span-8">
-          <div class="bg-white dark:bg-stone-900 rounded-xl shadow-sm border border-amber-200 dark:border-amber-900/50 p-8">
-            <!-- Header -->
-            <div class="mb-8">
-              <UBadge
-                :color="entityTypeBadgeColor"
-                variant="subtle"
-                size="md"
-                class="mb-4"
-              >
-                {{ entityTypeLabel }}
-              </UBadge>
-              <h1 class="text-4xl font-bold text-stone-900 dark:text-stone-100 mb-4">
-                {{ entityName }}
-              </h1>
-            </div>
+          <div class="bg-white dark:bg-stone-900 rounded-xl shadow-sm border border-amber-200 dark:border-amber-900/50 overflow-hidden">
+            <!-- Header Section - Image Right, Info Left -->
+            <div class="p-6 sm:p-8">
+              <div class="flex flex-col md:flex-row gap-6 items-end mb-8">
+                <!-- Left Side - Badge, Name, Description -->
+                <div class="flex-1 flex flex-col justify-end">
+                  <UBadge
+                    :color="entityTypeBadgeColor"
+                    variant="solid"
+                    size="md"
+                    class="mb-3 w-fit"
+                  >
+                    {{ entityTypeLabel }}
+                  </UBadge>
+                  <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-stone-900 dark:text-stone-100 mb-4 break-words">
+                    {{ entityName }}
+                  </h1>
+                  <div class="prose dark:prose-invert max-w-none">
+                    <p class="text-base text-stone-600 dark:text-stone-400 leading-relaxed">
+                      {{ entityDescription }}
+                    </p>
+                  </div>
+                </div>
 
-            <!-- Description -->
-            <div class="prose dark:prose-invert max-w-none mb-8">
-              <p class="text-lg text-stone-700 dark:text-stone-300 leading-relaxed">
-                {{ entityDescription }}
-              </p>
-            </div>
+                <!-- Right Side - Image -->
+                <div class="flex-shrink-0 w-full md:w-48 lg:w-56">
+                  <div class="relative h-64 rounded-lg overflow-hidden border-4 border-amber-200 dark:border-amber-900 shadow-lg">
+                    <img
+                      :src="entityImage"
+                      :alt="entityName"
+                      class="w-full h-full object-cover"
+                      @error="(e) => (e.target as HTMLImageElement).src = '/images/img-placeholder.jpg'"
+                    />
+                  </div>
+                </div>
+              </div>
 
-            <!-- Relations Section -->
-            <div v-if="rawData.related_nodes && rawData.related_nodes.length > 0" class="mt-12">
-              <h2 class="text-2xl font-bold text-stone-900 dark:text-stone-100 mb-6 flex items-center gap-2">
-                <UIcon name="i-heroicons-link" class="w-6 h-6 text-amber-600 dark:text-amber-500" />
-                Relasi Terkait
-              </h2>
-              <div class="grid md:grid-cols-2 gap-4">
-                <UCard
+              <!-- Divider -->
+              <UDivider class="my-8" />
+
+              <!-- Facts Table -->
+              <div v-if="facts.length > 0">
+                <h2 class="text-xl font-bold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
+                  <UIcon name="i-heroicons-information-circle" class="w-5 h-5 text-amber-600 dark:text-amber-500" />
+                  Informasi Detail
+                </h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div
+                    v-for="(fact, index) in facts"
+                    :key="index"
+                    class="bg-amber-50/50 dark:bg-stone-800/50 rounded-lg p-4 border border-amber-100 dark:border-stone-700"
+                  >
+                    <dt class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-1">
+                      {{ fact.label }}
+                    </dt>
+                    <dd class="text-base font-medium text-stone-900 dark:text-stone-100 break-all">
+                      {{ fact.value }}
+                    </dd>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar - Relations -->
+        <div class="lg:col-span-4">
+          <div class="sticky top-8 space-y-4">
+            <!-- Relations Card -->
+            <UCard v-if="rawData.related_nodes && rawData.related_nodes.length > 0">
+              <template #header>
+                <div class="flex items-center gap-2">
+                  <UIcon name="i-heroicons-link" class="w-5 h-5 text-amber-600 dark:text-amber-500" />
+                  <h2 class="text-lg font-bold text-stone-900 dark:text-stone-100">
+                    Relasi Terkait
+                  </h2>
+                </div>
+                <p class="text-sm text-stone-600 dark:text-stone-400 mt-1">
+                  {{ rawData.related_nodes.length }} relasi ditemukan
+                </p>
+              </template>
+
+              <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                <div
                   v-for="node in rawData.related_nodes"
                   :key="node.element_id"
-                  class="hover:shadow-lg transition-shadow cursor-pointer"
+                  class="group p-3 rounded-lg border border-stone-200 dark:border-stone-800 hover:border-amber-300 dark:hover:border-amber-700 hover:shadow-md transition-all cursor-pointer bg-white dark:bg-stone-900"
                   @click="navigateToRelation(node)"
                 >
-                  <div class="flex gap-4">
+                  <div class="flex gap-3 items-start">
                     <div class="flex-shrink-0">
                       <img
                         :src="node.properties.image_url || '/images/img-placeholder.jpg'"
                         :alt="getNodeDisplayName(node)"
-                        class="w-16 h-16 object-cover rounded-lg border-2 border-amber-200 dark:border-amber-900"
+                        class="w-12 h-12 object-cover rounded-lg border-2 border-amber-200 dark:border-amber-900 group-hover:border-amber-400 dark:group-hover:border-amber-600 transition-colors"
                         @error="(e) => (e.target as HTMLImageElement).src = '/images/img-placeholder.jpg'"
                       />
                     </div>
                     <div class="flex-1 min-w-0">
-                      <div class="flex items-start gap-2 mb-2">
+                      <div class="flex items-start gap-2 mb-1">
                         <UIcon
                           :name="getRelationIcon(getNodeType(node.labels))"
                           :class="{
@@ -363,10 +414,10 @@ const navigateToRelation = (node: RelatedNode) => {
                           class="w-4 h-4 mt-0.5 flex-shrink-0"
                         />
                         <div class="flex-1">
-                          <h3 class="font-semibold text-stone-900 dark:text-stone-100 text-sm">
+                          <h3 class="font-semibold text-stone-900 dark:text-stone-100 text-sm line-clamp-1 group-hover:text-amber-700 dark:group-hover:text-amber-500 transition-colors">
                             {{ getNodeDisplayName(node) }}
                           </h3>
-                          <p class="text-xs text-stone-500 dark:text-stone-400 mt-1">
+                          <p class="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                             {{ formatRelationship(node.relationship) }}
                           </p>
                         </div>
@@ -380,40 +431,17 @@ const navigateToRelation = (node: RelatedNode) => {
                       </UBadge>
                     </div>
                   </div>
-                </UCard>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sidebar Infobox -->
-        <div class="lg:col-span-4">
-          <div class="sticky top-8">
-            <UCard class="overflow-hidden border-2 border-amber-200 dark:border-amber-900/50">
-              <!-- Image -->
-              <div class="mb-6">
-                <img
-                  :src="entityImage"
-                  :alt="entityName"
-                  class="w-full h-auto rounded-lg"
-                  @error="(e) => (e.target as HTMLImageElement).src = '/images/img-placeholder.jpg'"
-                />
-              </div>
-
-              <!-- Facts Table -->
-              <div v-if="facts.length > 0" class="space-y-4">
-                <div
-                  v-for="(fact, index) in facts"
-                  :key="index"
-                  class="border-b border-stone-200 dark:border-stone-800 pb-3 last:border-0"
-                >
-                  <dt class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-1">
-                    {{ fact.label }}
-                  </dt>
-                  <dd class="text-sm text-stone-900 dark:text-stone-100">
-                    {{ fact.value }}
-                  </dd>
                 </div>
+              </div>
+            </UCard>
+
+            <!-- Info Card -->
+            <UCard>
+              <div class="text-center">
+                <UIcon name="i-heroicons-information-circle" class="w-8 h-8 mx-auto text-amber-600 dark:text-amber-500 mb-3" />
+                <p class="text-xs text-stone-600 dark:text-stone-400">
+                  Data ini berasal dari Kaggle & Wikidata dan dapat dikembangkan lebih lanjut.
+                </p>
               </div>
             </UCard>
           </div>
@@ -424,10 +452,35 @@ const navigateToRelation = (node: RelatedNode) => {
 </template>
 
 <style scoped>
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Custom scrollbar for relations */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #d97706;
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #b45309;
 }
 </style>
