@@ -2,10 +2,10 @@
 import { features } from '~/data/features'
 
 useSeoMeta({
-  title: 'Museum Knowledge Graph',
-  ogTitle: 'Museum Knowledge Graph',
-  description: 'Eksplorasi koleksi dan sejarah museum melalui pencarian, query interaktif, dan info box artefak.',
-  ogDescription: 'Eksplorasi koleksi dan sejarah museum melalui pencarian, query interaktif, dan info box artefak.'
+  title: 'Historical Knowledge Graph - BC to AD',
+  ogTitle: 'Historical Knowledge Graph - BC to AD',
+  description: 'Jelajahi tokoh dan peristiwa sejarah dari era BC hingga AD, dari Zoro hingga Nero melalui Knowledge Graph interaktif.',
+  ogDescription: 'Jelajahi tokoh dan peristiwa sejarah dari era BC hingga AD, dari Zoro hingga Nero melalui Knowledge Graph interaktif.'
 })
 </script>
 
@@ -15,10 +15,10 @@ useSeoMeta({
     <UContainer class="py-16 sm:py-24">
       <div class="text-center">
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-stone-900 dark:text-stone-50">
-          Jelajahi <span class="text-amber-700 dark:text-amber-500">Museum Knowledge Graph</span>
+          Jelajahi <span class="text-amber-700 dark:text-amber-500">Historical Event and People</span>
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-          Temukan, eksplorasi, dan pelajari koleksi artefak serta sejarah museum melalui fitur pencarian, query Cypher interaktif, dan info box artefak yang informatif.
+          Temukan tokoh dan peristiwa bersejarah dari era Before Christ hingga Anno Domini. Eksplorasi hubungan antar tokoh, peristiwa penting, dan warisan sejarah mereka melalui Knowledge Graph interaktif.
         </p>
       </div>
     </UContainer>
@@ -41,10 +41,10 @@ useSeoMeta({
 
         <div class="lg:col-span-6">
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-stone-900 dark:text-stone-50">
-            Eksplorasi Koleksi <span class="text-amber-700 dark:text-amber-500">dengan Query Cypher</span>
+            Query <span class="text-amber-700 dark:text-amber-500">dengan Cypher</span>
           </h2>
           <p class="text-lg text-stone-600 dark:text-stone-400 mb-8">
-            Tulis dan jalankan query Cypher untuk menelusuri koleksi artefak, sejarah pameran, dan hubungan antar objek di museum secara mendalam.
+            Eksplorasi data historis dengan bahasa query Cypher. Telusuri hubungan antar tokoh sejarah, peristiwa penting, dan warisan mereka dari era BC hingga AD secara mendalam.
           </p>
 
           <!-- Feature List -->
@@ -54,9 +54,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Query Koleksi Interaktif</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Query Interaktif Real-Time</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Telusuri koleksi artefak, galeri, dan pameran dengan query Cypher secara real-time.
+                  Jalankan query Cypher untuk mengeksplorasi tokoh sejarah, dinasti, peristiwa, dan hubungan mereka.
                 </p>
               </div>
             </div>
@@ -66,9 +66,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Contoh Query Museum</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Template Query Sejarah</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Gunakan template query untuk eksplorasi koleksi dan sejarah museum.
+                  Gunakan contoh query untuk menemukan kaisar Romawi, filsuf Yunani, atau peristiwa bersejarah.
                 </p>
               </div>
             </div>
@@ -78,9 +78,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Hasil Visual Koleksi</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Visualisasi Data Historis</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Lihat hasil pencarian dalam format tabel atau visual koleksi yang mudah dipahami.
+                  Lihat hasil query dalam format tabel yang mudah dipahami dengan detail properti lengkap.
                 </p>
               </div>
             </div>
@@ -94,7 +94,7 @@ useSeoMeta({
             trailing
             class="shadow-lg shadow-amber-500/20"
           >
-            Mulai Eksplorasi
+            Mulai Query Sejarah
           </UButton>
         </div>
       </div>
@@ -105,10 +105,10 @@ useSeoMeta({
       <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
         <div class="lg:col-span-6 order-2 lg:order-1 mt-12 lg:mt-0">
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-stone-900 dark:text-stone-50">
-            Pencarian <span class="text-amber-700 dark:text-amber-500">Artefak & Pameran</span>
+            Pencarian <span class="text-amber-700 dark:text-amber-500">Tokoh & Peristiwa Sejarah</span>
           </h2>
           <p class="text-lg text-stone-600 dark:text-stone-400 mb-8">
-            Cari artefak, galeri, atau pameran museum secara cepat melalui kolom pencarian yang intuitif. Temukan informasi koleksi dan sejarahnya dengan mudah.
+            Temukan tokoh bersejarah dari Zoro hingga Nero, atau peristiwa penting dari era BC hingga AD. Cari berdasarkan nama, posisi, negara, atau dampak peristiwa dengan pencarian yang cepat dan akurat.
           </p>
 
           <!-- Feature List -->
@@ -118,9 +118,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Pencarian Koleksi Cepat</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Pencarian Cerdas dengan Auto-Suggest</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Temukan artefak, galeri, atau pameran dengan pencarian berbasis kata kunci.
+                  Ketik nama tokoh atau peristiwa dan dapatkan saran otomatis untuk hasil yang relevan.
                 </p>
               </div>
             </div>
@@ -130,9 +130,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Filter Kategori Koleksi</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Filter Berdasarkan Lokasi & Tipe</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Pilih kategori seperti Artefak, Galeri, atau Pameran untuk hasil yang relevan.
+                  Filter hasil pencarian berdasarkan negara, benua, atau tipe entitas (tokoh/peristiwa).
                 </p>
               </div>
             </div>
@@ -142,9 +142,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Info Box Artefak</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Infobox Detail dengan Relasi</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Akses info box dengan detail lengkap tentang artefak dan sejarahnya.
+                  Lihat informasi lengkap tokoh atau peristiwa beserta hubungan mereka dengan entitas lain.
                 </p>
               </div>
             </div>
@@ -158,7 +158,7 @@ useSeoMeta({
             trailing
             class="shadow-lg shadow-amber-500/20"
           >
-            Mulai Eksplorasi
+            Mulai Pencarian
           </UButton>
         </div>
 
@@ -167,7 +167,7 @@ useSeoMeta({
             <div class="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-amber-600/20 rounded-lg blur-2xl"></div>
             <NuxtImg
               src="/images/search-event.jpg"
-              alt="Search Museum Events"
+              alt="Search Historical Events and People"
               class="relative w-full h-auto rounded-lg shadow-2xl border border-amber-200 dark:border-amber-900"
               width="600"
               height="400"

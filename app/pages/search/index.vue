@@ -7,10 +7,10 @@ import { useSearchSuggestion } from '~/data/search-suggestion';
 import { useDropdownFilter } from '~/data/dropdown-filter';
 
 useSeoMeta({
-  title: 'Pencarian Museum - Museum Knowledge Graph',
-  ogTitle: 'Pencarian Museum - Museum Knowledge Graph',
-  description: 'Cari koleksi artefak, tokoh, dan peristiwa sejarah museum.',
-  ogDescription: 'Cari koleksi artefak, tokoh, dan peristiwa sejarah museum.'
+  title: 'Pencarian Tokoh & Peristiwa Sejarah - Historical Knowledge Graph',
+  ogTitle: 'Pencarian Tokoh & Peristiwa Sejarah - Historical Knowledge Graph',
+  description: 'Cari tokoh dan peristiwa sejarah dari era BC hingga AD. Temukan kaisar, filsuf, dan peristiwa bersejarah dari Zoro hingga Nero.',
+  ogDescription: 'Cari tokoh dan peristiwa sejarah dari era BC hingga AD. Temukan kaisar, filsuf, dan peristiwa bersejarah dari Zoro hingga Nero.'
 });
 
 const { fetchSuggestions } = useSearchSuggestion();
@@ -281,7 +281,7 @@ const scrollToTop = () => {
           Cari <span class="text-amber-700 dark:text-amber-500">Tokoh & Peristiwa</span> Sejarah
         </h1>
         <p class="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-          Temukan informasi lengkap tentang tokoh sejarah dan peristiwa penting dalam koleksi museum
+          Temukan tokoh bersejarah dari Zoro hingga Nero dan peristiwa penting dari era BC hingga AD
         </p>
       </div>
 
