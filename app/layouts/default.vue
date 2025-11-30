@@ -4,7 +4,7 @@ const route = useRoute()
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
-    label: 'Museum',
+    label: 'Beranda',
     to: '/',
     active: route.path === '/'
   },
