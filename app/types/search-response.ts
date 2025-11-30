@@ -1,6 +1,6 @@
 export interface PersonSearchResult {
   type: 'person';
-  id: number;
+  element_id: string;
   name: string;
   description: string;
   image: string;
@@ -13,7 +13,7 @@ export interface PersonSearchResult {
 
 export interface EventSearchResult {
   type: 'event';
-  id: number;
+  element_id: string;
   name: string;
   description: string;
   image: string;

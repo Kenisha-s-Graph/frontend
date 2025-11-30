@@ -1,5 +1,5 @@
 export interface SuggestionItem {
-  id: number;
+  element_id: string;
   text: string;
   type: 'person' | 'event';
 }
