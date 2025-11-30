@@ -301,10 +301,8 @@ const navigateToRelation = (node: RelatedNode) => {
         <!-- Main Content - Infobox -->
         <div class="lg:col-span-8">
           <div class="bg-white dark:bg-stone-900 rounded-xl shadow-sm border border-amber-200 dark:border-amber-900/50 overflow-hidden">
-            <!-- Header Section - Image Right, Info Left -->
             <div class="p-6 sm:p-8">
               <div class="flex flex-col md:flex-row gap-6 items-end mb-8">
-                <!-- Left Side - Badge, Name, Description -->
                 <div class="flex-1 flex flex-col justify-end">
                   <UBadge
                     :color="entityTypeBadgeColor"
@@ -324,7 +322,6 @@ const navigateToRelation = (node: RelatedNode) => {
                   </div>
                 </div>
 
-                <!-- Right Side - Image -->
                 <div class="flex-shrink-0 w-full md:w-48 lg:w-56">
                   <div class="relative h-64 rounded-lg overflow-hidden border-4 border-amber-200 dark:border-amber-900 shadow-lg">
                     <img
@@ -337,7 +334,6 @@ const navigateToRelation = (node: RelatedNode) => {
                 </div>
               </div>
 
-              <!-- Divider -->
               <UDivider class="my-8" />
 
               <!-- Facts Table -->
