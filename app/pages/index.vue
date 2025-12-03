@@ -176,5 +176,70 @@ useSeoMeta({
         </div>
       </div>
     </UContainer>
+
+    <!-- Semantic Search Feature - Image Left -->
+    <UContainer class="py-16 sm:py-24">
+      <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+        <div class="lg:col-span-6 mb-12 lg:mb-0">
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-pink-600/20 rounded-lg blur-2xl"></div>
+            <NuxtImg
+              src="/images/semantic-search.png"
+              alt="Semantic Search Interface"
+              class="relative w-full h-auto rounded-lg shadow-2xl border border-amber-200 dark:border-amber-900"
+              width="600"
+              height="400"
+            />
+          </div>
+        </div>
+
+        <div class="lg:col-span-6">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-stone-900 dark:text-stone-50">
+            <span class="text-amber-700 dark:text-amber-500">Semantic Search</span> by Concept
+          </h2>
+          <p class="text-lg text-stone-600 dark:text-stone-400 mb-8">
+            Discover historical figures and events based on meaning and context using vector embeddings. Search for abstract concepts like "religion" or "philosophy" to find semantically related results.
+          </p>
+
+          <!-- Feature List -->
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start gap-3">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
+              </div>
+              <div>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Vector Embedding Similarity</h3>
+                <p class="text-stone-600 dark:text-stone-400 text-sm">
+                  Find results based on semantic meaning using vector embedding similarity algorithms.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
+              </div>
+              <div>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Relevance Scoring</h3>
+                <p class="text-stone-600 dark:text-stone-400 text-sm">
+                  See similarity scores to understand how closely each result matches your search concept.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <UButton
+            to="/semantic-search"
+            size="lg"
+            color="primary"
+            icon="i-heroicons-sparkles"
+            trailing
+            class="shadow-lg shadow-amber-500/20"
+          >
+            Try Semantic Search
+          </UButton>
+        </div>
+      </div>
+    </UContainer>
   </div>
 </template>
