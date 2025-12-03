@@ -11,15 +11,15 @@ const rawData = ref<InfoboxResponse | null>(null);
 useSeoMeta({
   title: 'Infobox - Historical Knowledge Graph',
   ogTitle: 'Infobox - Historical Knowledge Graph',
-  description: 'Lihat informasi detail tokoh dan peristiwa sejarah.',
-  ogDescription: 'Lihat informasi detail tokoh dan peristiwa sejarah.'
+  description: 'View detailed information about historical persons and events.',
+  ogDescription: 'View detailed information about historical persons and events.'
 });
 
 watchEffect(async () => {
   const id = route.params.id as string;
   
   if (!id) {
-    error.value = 'ID tidak ditemukan di URL';
+    error.value = 'ID not found in URL';
     loading.value = false;
     return;
   }
@@ -31,7 +31,7 @@ watchEffect(async () => {
     rawData.value = await fetchInfobox(id);
   } catch (e: any) {
     console.error('Error loading infobox:', e);
-    error.value = e.message || 'Gagal memuat data';
+    error.value = e.message || 'Failed to load data';
   } finally {
     loading.value = false;
   }
@@ -54,17 +54,17 @@ const entityType = computed(() => {
 
 const entityTypeLabel = computed(() => {
   const labelMap: Record<string, string> = {
-    person: 'Tokoh Sejarah',
-    event: 'Peristiwa Sejarah',
-    award: 'Penghargaan',
-    city: 'Kota',
-    country: 'Negara',
-    dynasty: 'Dinasti',
-    occupation: 'Pekerjaan',
-    position: 'Posisi',
-    other: 'Lainnya'
+    person: 'Historical Person',
+    event: 'Historical Event',
+    award: 'Award',
+    city: 'City',
+    country: 'Country',
+    dynasty: 'Dynasty',
+    occupation: 'Occupation',
+    position: 'Position',
+    other: 'Other'
   };
-  return labelMap[entityType.value] || 'Entitas';
+  return labelMap[entityType.value] || 'Entity';
 });
 
 const entityTypeBadgeColor = computed<'error' | 'neutral' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | undefined>(() => {
@@ -96,7 +96,7 @@ const entityDescription = computed(() => {
   if (!rawData.value) return '';
   return rawData.value.properties.abstract || 
          rawData.value.properties.description || 
-         'Tidak ada deskripsi tersedia';
+         'No description available';
 });
 
 const facts = computed<FormattedFact[]>(() => {
@@ -209,17 +209,17 @@ const getRelationColor = (type: string): BadgeColor => {
 
 const getRelationLabel = (type: string): string => {
   const labelMap: Record<string, string> = {
-    person: 'Tokoh',
-    event: 'Peristiwa',
-    award: 'Penghargaan',
-    city: 'Kota',
-    country: 'Negara',
-    dynasty: 'Dinasti',
-    occupation: 'Pekerjaan',
-    position: 'Posisi',
-    other: 'Lainnya'
+    person: 'Person',
+    event: 'Event',
+    award: 'Award',
+    city: 'City',
+    country: 'Country',
+    dynasty: 'Dynasty',
+    occupation: 'Occupation',
+    position: 'Position',
+    other: 'Other'
   };
-  return labelMap[type] || 'Lainnya';
+  return labelMap[type] || 'Other';
 };
 
 const navigateToRelation = (node: RelatedNode) => {
@@ -239,25 +239,25 @@ const navigateToRelation = (node: RelatedNode) => {
           icon="i-heroicons-arrow-left"
           size="sm"
         >
-          Kembali ke Pencarian
+          Back to Search
         </UButton>
       </div>
 
       <!-- Loading State -->
       <div v-if="loading" class="text-center py-16">
         <UIcon name="i-heroicons-arrow-path" class="w-12 h-12 mx-auto text-amber-600 dark:text-amber-500 animate-spin mb-4" />
-        <p class="text-stone-600 dark:text-stone-400">Memuat data...</p>
+        <p class="text-stone-600 dark:text-stone-400">Loading data...</p>
       </div>
 
       <!-- Error State -->
       <div v-else-if="error" class="text-center py-16">
         <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 mx-auto text-red-600 dark:text-red-500 mb-4" />
         <h3 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
-          Gagal Memuat Data
+          Failed to Load Data
         </h3>
         <p class="text-stone-600 dark:text-stone-400 mb-6">{{ error }}</p>
         <UButton to="/search" color="primary">
-          Kembali ke Pencarian
+          Back to Search
         </UButton>
       </div>
 
@@ -305,7 +305,7 @@ const navigateToRelation = (node: RelatedNode) => {
               <div v-if="facts.length > 0">
                 <h2 class="text-xl font-bold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
                   <UIcon name="i-heroicons-information-circle" class="w-5 h-5 text-amber-600 dark:text-amber-500" />
-                  Informasi Detail
+                  Detailed Information
                 </h2>
                 <div class="grid md:grid-cols-2 gap-4">
                   <div
@@ -335,11 +335,11 @@ const navigateToRelation = (node: RelatedNode) => {
                 <div class="flex items-center gap-2">
                   <UIcon name="i-heroicons-link" class="w-5 h-5 text-amber-600 dark:text-amber-500" />
                   <h2 class="text-lg font-bold text-stone-900 dark:text-stone-100">
-                    Relasi Terkait
+                    Related Entities
                   </h2>
                 </div>
                 <p class="text-sm text-stone-600 dark:text-stone-400 mt-1">
-                  {{ rawData.related_nodes.length }} relasi ditemukan
+                  {{ rawData.related_nodes.length }} relation(s) found
                 </p>
               </template>
 
@@ -401,7 +401,7 @@ const navigateToRelation = (node: RelatedNode) => {
               <div class="text-center">
                 <UIcon name="i-heroicons-information-circle" class="w-8 h-8 mx-auto text-amber-600 dark:text-amber-500 mb-3" />
                 <p class="text-xs text-stone-600 dark:text-stone-400">
-                  Data ini berasal dari Kaggle & Wikidata dan dapat dikembangkan lebih lanjut.
+                  This data is sourced from Kaggle & Wikidata and can be further developed.
                 </p>
               </div>
             </UCard>

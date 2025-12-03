@@ -4,8 +4,8 @@ import { features } from '~/data/features'
 useSeoMeta({
   title: 'Historical Knowledge Graph - BC to AD',
   ogTitle: 'Historical Knowledge Graph - BC to AD',
-  description: 'Jelajahi tokoh dan peristiwa sejarah dari era BC hingga AD, dari Zoro hingga Nero melalui Knowledge Graph interaktif.',
-  ogDescription: 'Jelajahi tokoh dan peristiwa sejarah dari era BC hingga AD, dari Zoro hingga Nero melalui Knowledge Graph interaktif.'
+  description: 'Explore historical figures and events from BC to AD era, from Zoro to Nero through an interactive Knowledge Graph.',
+  ogDescription: 'Explore historical figures and events from BC to AD era, from Zoro to Nero through an interactive Knowledge Graph.'
 })
 </script>
 
@@ -15,10 +15,10 @@ useSeoMeta({
     <UContainer class="py-16 sm:py-24">
       <div class="text-center">
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-stone-900 dark:text-stone-50">
-          Jelajahi <span class="text-amber-700 dark:text-amber-500">Historical Event and People</span>
+          Explore <span class="text-amber-700 dark:text-amber-500">Historical Events and People</span>
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-          Temukan tokoh dan peristiwa bersejarah dari era Before Christ hingga Anno Domini. Eksplorasi hubungan antar tokoh, peristiwa penting, dan warisan sejarah mereka melalui Knowledge Graph interaktif.
+          Discover historical figures and events from the Before Christ to Anno Domini era. Explore relationships between figures, important events, and their historical legacy through an interactive Knowledge Graph.
         </p>
       </div>
     </UContainer>
@@ -41,10 +41,10 @@ useSeoMeta({
 
         <div class="lg:col-span-6">
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-stone-900 dark:text-stone-50">
-            Query <span class="text-amber-700 dark:text-amber-500">dengan Cypher</span>
+            Query <span class="text-amber-700 dark:text-amber-500">with Cypher</span>
           </h2>
           <p class="text-lg text-stone-600 dark:text-stone-400 mb-8">
-            Eksplorasi data historis dengan bahasa query Cypher. Telusuri hubungan antar tokoh sejarah, peristiwa penting, dan warisan mereka dari era BC hingga AD secara mendalam.
+            Explore historical data with Cypher query language. Discover relationships between historical figures, important events, and their legacies from BC to AD era in depth.
           </p>
 
           <!-- Feature List -->
@@ -54,9 +54,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Query Interaktif Real-Time</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Real-Time Interactive Query</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Jalankan query Cypher untuk mengeksplorasi tokoh sejarah, dinasti, peristiwa, dan hubungan mereka.
+                  Run Cypher queries to explore historical figures, dynasties, events, and their relationships.
                 </p>
               </div>
             </div>
@@ -66,9 +66,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Template Query Sejarah</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Historical Query Templates</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Gunakan contoh query untuk menemukan kaisar Romawi, filsuf Yunani, atau peristiwa bersejarah.
+                  Use example queries to find Roman emperors, Greek philosophers, or historical events.
                 </p>
               </div>
             </div>
@@ -78,9 +78,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Visualisasi Data Historis</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Historical Data Visualization</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Lihat hasil query dalam format tabel yang mudah dipahami dengan detail properti lengkap.
+                  View query results in an easy-to-understand table format with complete property details.
                 </p>
               </div>
             </div>
@@ -94,7 +94,7 @@ useSeoMeta({
             trailing
             class="shadow-lg shadow-amber-500/20"
           >
-            Mulai Query Sejarah
+            Start Historical Query
           </UButton>
         </div>
       </div>
@@ -105,10 +105,10 @@ useSeoMeta({
       <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
         <div class="lg:col-span-6 order-2 lg:order-1 mt-12 lg:mt-0">
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6 text-stone-900 dark:text-stone-50">
-            Pencarian <span class="text-amber-700 dark:text-amber-500">Tokoh & Peristiwa Sejarah</span>
+            Search for <span class="text-amber-700 dark:text-amber-500">Historical Figures & Events</span>
           </h2>
           <p class="text-lg text-stone-600 dark:text-stone-400 mb-8">
-            Temukan tokoh bersejarah dari Zoro hingga Nero, atau peristiwa penting dari era BC hingga AD. Cari berdasarkan nama, posisi, negara, atau dampak peristiwa dengan pencarian yang cepat dan akurat.
+            Find historical figures from Zoro to Nero, or important events from BC to AD era. Search by name, position, country, or event impact with fast and accurate search.
           </p>
 
           <!-- Feature List -->
@@ -118,9 +118,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Pencarian Cerdas dengan Auto-Suggest</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Smart Search with Auto-Suggest</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Ketik nama tokoh atau peristiwa dan dapatkan saran otomatis untuk hasil yang relevan.
+                  Type a figure or event name and get automatic suggestions for relevant results.
                 </p>
               </div>
             </div>
@@ -130,9 +130,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Filter Berdasarkan Lokasi & Tipe</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Filter by Location & Type</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Filter hasil pencarian berdasarkan negara, benua, atau tipe entitas (tokoh/peristiwa).
+                  Filter search results by country, continent, or entity type (figure/event).
                 </p>
               </div>
             </div>
@@ -142,9 +142,9 @@ useSeoMeta({
                 <UIcon name="i-heroicons-check" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
               </div>
               <div>
-                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Infobox Detail dengan Relasi</h3>
+                <h3 class="font-semibold mb-1 text-stone-900 dark:text-stone-100">Detailed Infobox with Relations</h3>
                 <p class="text-stone-600 dark:text-stone-400 text-sm">
-                  Lihat informasi lengkap tokoh atau peristiwa beserta hubungan mereka dengan entitas lain.
+                  View complete information about figures or events along with their relationships to other entities.
                 </p>
               </div>
             </div>
@@ -158,7 +158,7 @@ useSeoMeta({
             trailing
             class="shadow-lg shadow-amber-500/20"
           >
-            Mulai Pencarian
+            Start Searching
           </UButton>
         </div>
 

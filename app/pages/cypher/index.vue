@@ -4,8 +4,8 @@ import CypherQueryEditor from '~/components/cypher/CypherQueryEditor.vue'
 useSeoMeta({
   title: 'Cypher Query - Historical Knowledge Graph',
   ogTitle: 'Cypher Query - Historical Knowledge Graph',
-  description: 'Query data historis dari era BC hingga AD menggunakan bahasa Cypher. Eksplorasi tokoh dan peristiwa sejarah secara mendalam.',
-  ogDescription: 'Query data historis dari era BC hingga AD menggunakan bahasa Cypher. Eksplorasi tokoh dan peristiwa sejarah secara mendalam.'
+  description: 'Query historical data from BC to AD era using Cypher language. Explore historical figures and events in depth.',
+  ogDescription: 'Query historical data from BC to AD era using Cypher language. Explore historical figures and events in depth.'
 })
 </script>
 
@@ -17,7 +17,7 @@ useSeoMeta({
           Cypher Query Interface
         </h1>
         <p class="text-lg text-stone-600 dark:text-stone-400">
-          Eksplorasi data sejarah dari era BC hingga AD dengan query Cypher interaktif
+          Explore historical data from BC to AD era with interactive Cypher queries
         </p>
       </div>
       <CypherQueryEditor />
