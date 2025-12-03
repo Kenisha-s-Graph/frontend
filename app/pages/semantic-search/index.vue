@@ -5,8 +5,8 @@ import type { SemanticSearchRequest, SemanticPersonResult, SemanticEventResult }
 useSeoMeta({
   title: 'Semantic Search - Historical Knowledge Graph',
   ogTitle: 'Semantic Search - Historical Knowledge Graph',
-  description: 'Search for historical figures and events using semantic similarity. Find related concepts and topics.',
-  ogDescription: 'Search for historical figures and events using semantic similarity. Find related concepts and topics.'
+  description: 'Search for historical events and peoples using semantic similarity. Find related concepts and topics.',
+  ogDescription: 'Search for historical events and peoples using semantic similarity. Find related concepts and topics.'
 });
 
 const { fetchSemanticSearch } = useSemanticSearch();
@@ -118,10 +118,10 @@ const getSimilarityLabel = (score: number) => {
       <!-- Header -->
       <div class="text-center mb-12">
         <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-stone-900 dark:text-stone-50">
-          Semantic Search for <span class="text-amber-700 dark:text-amber-500">Historical Figures & Events</span>
+          Semantic Search for <span class="text-amber-700 dark:text-amber-500">Historical Events & Peoples</span>
         </h1>
         <p class="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-          Search by concepts, topics, or themes. Find historically related figures and events based on semantic similarity using vector embeddings.
+          Search by concepts, topics, or themes. Find historically related events and peoples based on semantic similarity using vector embeddings.
         </p>
       </div>
 
@@ -243,7 +243,7 @@ const getSimilarityLabel = (score: number) => {
                       variant="subtle"
                       size="xs"
                     >
-                      {{ isPersonResult(result) ? 'Figure' : 'Event' }}
+                      {{ isPersonResult(result) ? 'Person' : 'Event' }}
                     </UBadge>
                     <UBadge
                       color="primary"
@@ -328,7 +328,7 @@ const getSimilarityLabel = (score: number) => {
           Start Your Semantic Search
         </h3>
         <p class="text-stone-600 dark:text-stone-400 mb-8">
-          Search for abstract concepts, themes, or topics to discover related historical figures and events.
+          Search for abstract concepts, themes, or topics to discover related historical events and peoples.
         </p>
 
         <!-- Example Searches -->
