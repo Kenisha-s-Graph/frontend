@@ -4,32 +4,49 @@ const route = useRoute()
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
-    label: 'Beranda',
+    label: 'Home',
     to: '/',
     active: route.path === '/'
   },
   {
-    label: 'Query Cypher',
+    label: 'Cypher Query',
     to: '/cypher',
     active: route.path.startsWith('/cypher')
   },
   {
-    label: 'Pencarian',
+    label: 'Search',
     to: '/search',
     active: route.path.startsWith('/search')
+  },
+  {
+    label: 'Semantic Search',
+    to: '/semantic-search',
+    active: route.path.startsWith('/semantic-search')
   }
 ])
+
+const links = computed(() => items.value.map(item => ({
+  label: item.label,
+  to: item.to
+})))
 </script>
 
 <template>
-  <UHeader class="border-b border-amber-200 dark:border-amber-900/50">
-    <template #title>
-      <div class="flex items-center gap-2">
+  <UHeader 
+    :links="links"
+    class="border-b border-amber-200 dark:border-amber-900/50"
+  >
+    <template #left>
+      <NuxtLink to="/" class="flex items-center gap-2">
         <UIcon name="i-heroicons-building-library" class="w-5 h-5 text-amber-700 dark:text-amber-500" />
         <span class="font-bold text-amber-900 dark:text-amber-100">HistoPedia</span>
-      </div>
+      </NuxtLink>
     </template>
-    <UNavigationMenu :items="items" />
+
+    <template #default>
+      <UNavigationMenu :items="items" class="hidden lg:flex" />
+    </template>
+
     <template #right>
       <UColorModeButton />
       <UTooltip text="GitHub">

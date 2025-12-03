@@ -2,11 +2,38 @@
 import type { InfoboxResponse, FormattedFact, RelatedNode } from '~/types/infobox';
 
 const route = useRoute();
+const router = useRouter();
 const { fetchInfobox } = useInfobox();
 
 const loading = ref(true);
 const error = ref<string | null>(null);
 const rawData = ref<InfoboxResponse | null>(null);
+
+// Track from which page user came from
+const fromPage = ref<string>('search');
+
+onMounted(() => {
+  // Check if user came from semantic-search or search
+  const referrer = document.referrer;
+  if (referrer.includes('/semantic-search')) {
+    fromPage.value = 'semantic-search';
+  } else if (referrer.includes('/search')) {
+    fromPage.value = 'search';
+  }
+});
+
+const backButtonConfig = computed(() => {
+  if (fromPage.value === 'semantic-search') {
+    return {
+      label: 'Back to Semantic Search',
+      to: '/semantic-search'
+    };
+  }
+  return {
+    label: 'Back to Search',
+    to: '/search'
+  };
+});
 
 useSeoMeta({
   title: 'Infobox - Historical Knowledge Graph',
@@ -225,6 +252,14 @@ const getRelationLabel = (type: string): string => {
 const navigateToRelation = (node: RelatedNode) => {
   navigateTo(`/infobox/${encodeURIComponent(node.element_id)}`);
 };
+
+const handleBack = () => {
+  if (window.history.length > 1) {
+    router.back();
+  } else {
+    navigateTo(backButtonConfig.value.to);
+  }
+};
 </script>
 
 <template>
@@ -233,13 +268,13 @@ const navigateToRelation = (node: RelatedNode) => {
       <!-- Back Button -->
       <div class="mb-6">
         <UButton
-          to="/search"
+          @click="handleBack"
           color="neutral"
           variant="ghost"
           icon="i-heroicons-arrow-left"
           size="sm"
         >
-          Back to Search
+          {{ backButtonConfig.label }}
         </UButton>
       </div>
 
@@ -256,8 +291,8 @@ const navigateToRelation = (node: RelatedNode) => {
           Failed to Load Data
         </h3>
         <p class="text-stone-600 dark:text-stone-400 mb-6">{{ error }}</p>
-        <UButton to="/search" color="primary">
-          Back to Search
+        <UButton @click="handleBack" color="primary">
+          Go Back
         </UButton>
       </div>
 
