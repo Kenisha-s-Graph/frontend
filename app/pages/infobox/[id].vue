@@ -2,24 +2,51 @@
 import type { InfoboxResponse, FormattedFact, RelatedNode } from '~/types/infobox';
 
 const route = useRoute();
+const router = useRouter();
 const { fetchInfobox } = useInfobox();
 
 const loading = ref(true);
 const error = ref<string | null>(null);
 const rawData = ref<InfoboxResponse | null>(null);
 
+// Track from which page user came from
+const fromPage = ref<string>('search');
+
+onMounted(() => {
+  // Check if user came from semantic-search or search
+  const referrer = document.referrer;
+  if (referrer.includes('/semantic-search')) {
+    fromPage.value = 'semantic-search';
+  } else if (referrer.includes('/search')) {
+    fromPage.value = 'search';
+  }
+});
+
+const backButtonConfig = computed(() => {
+  if (fromPage.value === 'semantic-search') {
+    return {
+      label: 'Back to Semantic Search',
+      to: '/semantic-search'
+    };
+  }
+  return {
+    label: 'Back to Search',
+    to: '/search'
+  };
+});
+
 useSeoMeta({
   title: 'Infobox - Historical Knowledge Graph',
   ogTitle: 'Infobox - Historical Knowledge Graph',
-  description: 'Lihat informasi detail tokoh dan peristiwa sejarah.',
-  ogDescription: 'Lihat informasi detail tokoh dan peristiwa sejarah.'
+  description: 'View detailed information about historical persons and events.',
+  ogDescription: 'View detailed information about historical persons and events.'
 });
 
 watchEffect(async () => {
   const id = route.params.id as string;
   
   if (!id) {
-    error.value = 'ID tidak ditemukan di URL';
+    error.value = 'ID not found in URL';
     loading.value = false;
     return;
   }
@@ -31,7 +58,7 @@ watchEffect(async () => {
     rawData.value = await fetchInfobox(id);
   } catch (e: any) {
     console.error('Error loading infobox:', e);
-    error.value = e.message || 'Gagal memuat data';
+    error.value = e.message || 'Failed to load data';
   } finally {
     loading.value = false;
   }
@@ -54,17 +81,17 @@ const entityType = computed(() => {
 
 const entityTypeLabel = computed(() => {
   const labelMap: Record<string, string> = {
-    person: 'Tokoh Sejarah',
-    event: 'Peristiwa Sejarah',
-    award: 'Penghargaan',
-    city: 'Kota',
-    country: 'Negara',
-    dynasty: 'Dinasti',
-    occupation: 'Pekerjaan',
-    position: 'Posisi',
-    other: 'Lainnya'
+    person: 'Historical Person',
+    event: 'Historical Event',
+    award: 'Award',
+    city: 'City',
+    country: 'Country',
+    dynasty: 'Dynasty',
+    occupation: 'Occupation',
+    position: 'Position',
+    other: 'Other'
   };
-  return labelMap[entityType.value] || 'Entitas';
+  return labelMap[entityType.value] || 'Entity';
 });
 
 const entityTypeBadgeColor = computed<'error' | 'neutral' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | undefined>(() => {
@@ -96,7 +123,7 @@ const entityDescription = computed(() => {
   if (!rawData.value) return '';
   return rawData.value.properties.abstract || 
          rawData.value.properties.description || 
-         'Tidak ada deskripsi tersedia';
+         'No description available';
 });
 
 const facts = computed<FormattedFact[]>(() => {
@@ -105,63 +132,28 @@ const facts = computed<FormattedFact[]>(() => {
   const props = rawData.value.properties;
   const formattedFacts: FormattedFact[] = [];
   
-  const propertyMapping: Record<string, string> = {
-    full_name: 'Nama Lengkap',
-    birth_year: 'Tahun Lahir',
-    birth_date: 'Tanggal Lahir',
-    death_year: 'Tahun Wafat',
-    death_date: 'Tanggal Wafat',
-    death_place: 'Tempat Wafat',
-    cause_of_death: 'Sebab Kematian',
-    sex: 'Jenis Kelamin',
-    wikidata_qid: 'Wikidata ID',
-    article_id: 'Article ID',
-    article_languages: 'Bahasa Artikel',
-    page_views: 'Total Page Views',
-    average_views: 'Rata-rata Views',
-    historical_popularity_index: 'Indeks Popularitas',
-    // Event properties
-    date: 'Tanggal',
-    month: 'Bulan',
-    year: 'Tahun',
-    place_name: 'Tempat',
-    country: 'Negara',
-    event_type: 'Tipe Event',
-    impact: 'Dampak',
-    outcome: 'Hasil',
-    important_personalities: 'Tokoh Penting',
-    affected_population: 'Populasi Terpengaruh',
-    event_id: 'Event ID',
-    // Other properties
-    city: 'Kota',
-    occupation: 'Pekerjaan',
-    position: 'Posisi',
-    label: 'Label',
-    latitude: 'Latitude',
-    longitude: 'Longitude',
-    domain: 'Domain',
-    industry: 'Industri'
-  };
-
   const skipProperties = ['image_url', 'description', 'abstract', 'name'];
 
   Object.entries(props).forEach(([key, value]) => {
     if (skipProperties.includes(key) || value === null || value === undefined) return;
     
-    const label = propertyMapping[key] || key.split('_').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
+    const label = key
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
     
     let formattedValue = value;
     
     if (typeof value === 'number') {
-      formattedValue = value.toLocaleString('id-ID');
+      formattedValue = value.toLocaleString('en-US');
     } else if (typeof value === 'string' && value.includes('T00:00:00Z')) {
-      formattedValue = new Date(value).toLocaleDateString('id-ID', {
+      formattedValue = new Date(value).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
       });
+    } else if (Array.isArray(value)) {
+      formattedValue = value.join(', ');
     }
     
     formattedFacts.push({ label, value: String(formattedValue) });
@@ -244,21 +236,29 @@ const getRelationColor = (type: string): BadgeColor => {
 
 const getRelationLabel = (type: string): string => {
   const labelMap: Record<string, string> = {
-    person: 'Tokoh',
-    event: 'Peristiwa',
-    award: 'Penghargaan',
-    city: 'Kota',
-    country: 'Negara',
-    dynasty: 'Dinasti',
-    occupation: 'Pekerjaan',
-    position: 'Posisi',
-    other: 'Lainnya'
+    person: 'Person',
+    event: 'Event',
+    award: 'Award',
+    city: 'City',
+    country: 'Country',
+    dynasty: 'Dynasty',
+    occupation: 'Occupation',
+    position: 'Position',
+    other: 'Other'
   };
-  return labelMap[type] || 'Lainnya';
+  return labelMap[type] || 'Other';
 };
 
 const navigateToRelation = (node: RelatedNode) => {
   navigateTo(`/infobox/${encodeURIComponent(node.element_id)}`);
+};
+
+const handleBack = () => {
+  if (window.history.length > 1) {
+    router.back();
+  } else {
+    navigateTo(backButtonConfig.value.to);
+  }
 };
 </script>
 
@@ -268,31 +268,31 @@ const navigateToRelation = (node: RelatedNode) => {
       <!-- Back Button -->
       <div class="mb-6">
         <UButton
-          to="/search"
+          @click="handleBack"
           color="neutral"
           variant="ghost"
           icon="i-heroicons-arrow-left"
           size="sm"
         >
-          Kembali ke Pencarian
+          {{ backButtonConfig.label }}
         </UButton>
       </div>
 
       <!-- Loading State -->
       <div v-if="loading" class="text-center py-16">
         <UIcon name="i-heroicons-arrow-path" class="w-12 h-12 mx-auto text-amber-600 dark:text-amber-500 animate-spin mb-4" />
-        <p class="text-stone-600 dark:text-stone-400">Memuat data...</p>
+        <p class="text-stone-600 dark:text-stone-400">Loading data...</p>
       </div>
 
       <!-- Error State -->
       <div v-else-if="error" class="text-center py-16">
         <UIcon name="i-heroicons-exclamation-triangle" class="w-12 h-12 mx-auto text-red-600 dark:text-red-500 mb-4" />
         <h3 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
-          Gagal Memuat Data
+          Failed to Load Data
         </h3>
         <p class="text-stone-600 dark:text-stone-400 mb-6">{{ error }}</p>
-        <UButton to="/search" color="primary">
-          Kembali ke Pencarian
+        <UButton @click="handleBack" color="primary">
+          Go Back
         </UButton>
       </div>
 
@@ -340,7 +340,7 @@ const navigateToRelation = (node: RelatedNode) => {
               <div v-if="facts.length > 0">
                 <h2 class="text-xl font-bold text-stone-900 dark:text-stone-100 mb-4 flex items-center gap-2">
                   <UIcon name="i-heroicons-information-circle" class="w-5 h-5 text-amber-600 dark:text-amber-500" />
-                  Informasi Detail
+                  Detailed Information
                 </h2>
                 <div class="grid md:grid-cols-2 gap-4">
                   <div
@@ -370,11 +370,11 @@ const navigateToRelation = (node: RelatedNode) => {
                 <div class="flex items-center gap-2">
                   <UIcon name="i-heroicons-link" class="w-5 h-5 text-amber-600 dark:text-amber-500" />
                   <h2 class="text-lg font-bold text-stone-900 dark:text-stone-100">
-                    Relasi Terkait
+                    Related Entities
                   </h2>
                 </div>
                 <p class="text-sm text-stone-600 dark:text-stone-400 mt-1">
-                  {{ rawData.related_nodes.length }} relasi ditemukan
+                  {{ rawData.related_nodes.length }} relation(s) found
                 </p>
               </template>
 
@@ -436,7 +436,7 @@ const navigateToRelation = (node: RelatedNode) => {
               <div class="text-center">
                 <UIcon name="i-heroicons-information-circle" class="w-8 h-8 mx-auto text-amber-600 dark:text-amber-500 mb-3" />
                 <p class="text-xs text-stone-600 dark:text-stone-400">
-                  Data ini berasal dari Kaggle & Wikidata dan dapat dikembangkan lebih lanjut.
+                  This data is sourced from Kaggle & Wikidata and can be further developed.
                 </p>
               </div>
             </UCard>

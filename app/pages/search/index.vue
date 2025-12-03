@@ -7,10 +7,10 @@ import { useSearchSuggestion } from '~/data/search-suggestion';
 import { useDropdownFilter } from '~/data/dropdown-filter';
 
 useSeoMeta({
-  title: 'Pencarian Tokoh & Peristiwa Sejarah - Historical Knowledge Graph',
-  ogTitle: 'Pencarian Tokoh & Peristiwa Sejarah - Historical Knowledge Graph',
-  description: 'Cari tokoh dan peristiwa sejarah dari era BC hingga AD. Temukan kaisar, filsuf, dan peristiwa bersejarah dari Zoro hingga Nero.',
-  ogDescription: 'Cari tokoh dan peristiwa sejarah dari era BC hingga AD. Temukan kaisar, filsuf, dan peristiwa bersejarah dari Zoro hingga Nero.'
+  title: 'Search Historical Events & Peoples - Historical Knowledge Graph',
+  ogTitle: 'Search Historical Events & Peoples - Historical Knowledge Graph',
+  description: 'Search for historical events & people from BC to AD era. Find emperors, philosophers, and historical events from Zoro to Nero.',
+  ogDescription: 'Search for historical events & people from BC to AD era. Find emperors, philosophers, and historical events from Zoro to Nero.'
 });
 
 const { fetchSuggestions } = useSearchSuggestion();
@@ -101,9 +101,9 @@ const filteredResults = computed(() => {
 const totalResults = computed(() => persons.value.length + events.value.length);
 
 const searchTypeOptions = [
-  { label: 'Semua', value: 'all' },
-  { label: 'Tokoh', value: 'person' },
-  { label: 'Peristiwa', value: 'event' }
+  { label: 'All', value: 'all' },
+  { label: 'Persons', value: 'person' },
+  { label: 'Events', value: 'event' }
 ];
 
 // Computed untuk filter options
@@ -278,10 +278,10 @@ const scrollToTop = () => {
       <!-- Header -->
       <div class="text-center mb-12">
         <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4 text-stone-900 dark:text-stone-50">
-          Cari <span class="text-amber-700 dark:text-amber-500">Tokoh & Peristiwa</span> Sejarah
+          Search <span class="text-amber-700 dark:text-amber-500">Historical Event and People</span>
         </h1>
         <p class="text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-          Temukan tokoh bersejarah dari Zoro hingga Nero dan peristiwa penting dari era BC hingga AD
+          Find historical people from Zoro to Nero and important events from BC to AD era
         </p>
       </div>
 
@@ -291,7 +291,7 @@ const scrollToTop = () => {
           <UInput
             v-model="searchQuery"
             size="xl"
-            placeholder="Cari nama tokoh, peristiwa, deskripsi, posisi, atau dampak..."
+            placeholder="Search names, events, descriptions, positions, or impacts..."
             icon="i-heroicons-magnifying-glass"
             :trailing="false"
             @keydown="handleKeydown"
@@ -318,7 +318,7 @@ const scrollToTop = () => {
           >
             <div v-if="loadingSuggestions" class="p-4 text-center text-stone-600 dark:text-stone-400">
               <UIcon name="i-heroicons-arrow-path" class="w-5 h-5 animate-spin inline-block" />
-              <span class="ml-2">Mencari...</span>
+              <span class="ml-2">Searching...</span>
             </div>
             <div v-else class="max-h-96 overflow-y-auto">
               <button
@@ -348,7 +348,7 @@ const scrollToTop = () => {
           <div class="space-y-4">
             <div class="text-center mb-4">
               <p class="text-sm text-stone-600 dark:text-stone-400">
-                Gunakan filter untuk mempersempit hasil pencarian
+                Use filters to narrow down search results
               </p>
             </div>
 
@@ -357,7 +357,7 @@ const scrollToTop = () => {
               <USelect
                 v-model="searchType"
                 :items="searchTypeOptions"
-                placeholder="Tipe Pencarian"
+                placeholder="Search Type"
                 class="w-full sm:w-1/2"
               />
 
@@ -371,7 +371,7 @@ const scrollToTop = () => {
                     size="sm"
                   >
                     <UIcon name="i-heroicons-map-pin" class="w-4 h-4 mr-1" />
-                    Negara
+                    Country
                   </UButton>
                   <UButton
                     :color="filterMode === 'continent' ? 'primary' : 'neutral'"
@@ -380,7 +380,7 @@ const scrollToTop = () => {
                     size="sm"
                   >
                     <UIcon name="i-heroicons-globe-americas" class="w-4 h-4 mr-1" />
-                    Benua
+                    Continent
                   </UButton>
                 </div>
                 <USelect
@@ -388,7 +388,7 @@ const scrollToTop = () => {
                   :items="filterOptions"
                   multiple
                   :loading="loadingFilters"
-                  placeholder="Pilih satu atau lebih..."
+                  placeholder="Select one or more..."
                   searchable
                   class="w-full"
                 />
@@ -426,7 +426,7 @@ const scrollToTop = () => {
               <div class="space-y-6">
                 <div>
                   <h3 class="text-sm font-semibold text-stone-900 dark:text-stone-100 mb-3">
-                    Tipe Pencarian
+                    Search Type
                   </h3>
                   <div class="space-y-2">
                     <UButton
@@ -436,7 +436,7 @@ const scrollToTop = () => {
                       size="sm"
                       block
                     >
-                      Semua ({{ totalResults }})
+                      All ({{ totalResults }})
                     </UButton>
                     <UButton
                       :color="searchType === 'person' ? 'primary' : 'neutral'"
@@ -445,7 +445,7 @@ const scrollToTop = () => {
                       size="sm"
                       block
                     >
-                      Tokoh ({{ totalPersonCount }})
+                      Persons ({{ totalPersonCount }})
                     </UButton>
                     <UButton
                       :color="searchType === 'event' ? 'primary' : 'neutral'"
@@ -454,7 +454,7 @@ const scrollToTop = () => {
                       size="sm"
                       block
                     >
-                      Peristiwa ({{ totalEventCount }})
+                      Events ({{ totalEventCount }})
                     </UButton>
                   </div>
                 </div>
@@ -463,7 +463,7 @@ const scrollToTop = () => {
 
                 <div>
                   <h3 class="text-sm font-semibold text-stone-900 dark:text-stone-100 mb-3">
-                    Filter Lokasi
+                    Location Filter
                   </h3>
                   <div class="flex gap-2 mb-3">
                   <UButton
@@ -473,7 +473,7 @@ const scrollToTop = () => {
                   size="sm"
                 >
                   <UIcon name="i-heroicons-map-pin" class="w-4 h-4 mr-1" />
-                  Negara
+                  Country
                 </UButton>
                 <UButton
                   :color="filterMode === 'continent' ? 'primary' : 'neutral'"
@@ -482,7 +482,7 @@ const scrollToTop = () => {
                   size="sm"
                 >
                   <UIcon name="i-heroicons-globe-americas" class="w-4 h-4 mr-1" />
-                  Benua
+                  Continent
                 </UButton>
                   </div>
 
@@ -491,7 +491,7 @@ const scrollToTop = () => {
                     :items="filterOptions"
                     multiple
                     :loading="loadingFilters"
-                    placeholder="Pilih satu atau lebih..."
+                    placeholder="Select one or more..."
                     searchable
                     class="w-full"
                   />
@@ -521,7 +521,7 @@ const scrollToTop = () => {
                     block
                     class="mt-4"
                   >
-                    Terapkan Filter
+                    Apply Filters
                   </UButton>
                 </div>
               </div>
@@ -532,10 +532,10 @@ const scrollToTop = () => {
           <div class="lg:col-span-3">
             <div class="mb-4 flex items-center justify-between">
               <h2 class="text-xl font-semibold text-stone-900 dark:text-stone-100">
-                Hasil Pencarian
+                Search Results
               </h2>
               <div class="text-sm text-stone-600 dark:text-stone-400">
-                {{ filteredResults.length }} hasil ditemukan
+                {{ filteredResults.length }} results found
               </div>          
             </div>
 
@@ -572,7 +572,7 @@ const scrollToTop = () => {
                         size="xs"
                         class="mb-2"
                       >
-                        {{ isPersonResult(result) ? 'Tokoh' : 'Peristiwa' }}
+                        {{ isPersonResult(result) ? 'Person' : 'Event' }}
                       </UBadge>
 
                       <!-- Name -->
@@ -617,7 +617,7 @@ const scrollToTop = () => {
                   variant="outline"
                 >
                   <UIcon v-if="!loadingMore" name="i-heroicons-arrow-down" class="w-5 h-5 mr-2" />
-                  {{ loadingMore ? 'Memuat...' : 'Muat Lebih Banyak' }}
+                  {{ loadingMore ? 'Loading...' : 'Load More' }}
                 </UButton>
               </div>
 
@@ -629,7 +629,7 @@ const scrollToTop = () => {
                   @click="scrollToTop"
                 >
                   <UIcon name="i-heroicons-arrow-up" class="w-5 h-5 mr-2" />
-                  Kembali ke Atas
+                  Back to Top
                 </UButton>
               </div>
             </div>
@@ -638,13 +638,13 @@ const scrollToTop = () => {
             <div v-else class="text-center py-16">
               <UIcon name="i-heroicons-magnifying-glass" class="w-16 h-16 mx-auto text-stone-400 mb-4" />
               <h3 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
-                Tidak ada hasil ditemukan
+                No results found
               </h3>
               <p class="text-stone-600 dark:text-stone-400 mb-6">
-                Coba gunakan kata kunci yang berbeda atau ubah filter
+                Try using different keywords or change filters
               </p>
               <UButton @click="clearSearch" color="primary" variant="outline">
-                Hapus Pencarian
+                Clear Search
               </UButton>
             </div>
           </div>
@@ -657,10 +657,10 @@ const scrollToTop = () => {
           <UIcon name="i-heroicons-magnifying-glass" class="w-10 h-10 text-amber-600 dark:text-amber-500" />
         </div>
         <h3 class="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
-          Mulai pencarian Anda
+          Start your search
         </h3>
         <p class="text-stone-600 dark:text-stone-400">
-          Ketik nama tokoh atau peristiwa sejarah, lalu tekan Enter atau klik tombol Cari
+          Type the name of a historical event or person, then press Enter or click Search
         </p>
       </div>
     </div>
