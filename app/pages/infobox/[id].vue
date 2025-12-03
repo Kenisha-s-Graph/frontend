@@ -105,63 +105,28 @@ const facts = computed<FormattedFact[]>(() => {
   const props = rawData.value.properties;
   const formattedFacts: FormattedFact[] = [];
   
-  const propertyMapping: Record<string, string> = {
-    full_name: 'Nama Lengkap',
-    birth_year: 'Tahun Lahir',
-    birth_date: 'Tanggal Lahir',
-    death_year: 'Tahun Wafat',
-    death_date: 'Tanggal Wafat',
-    death_place: 'Tempat Wafat',
-    cause_of_death: 'Sebab Kematian',
-    sex: 'Jenis Kelamin',
-    wikidata_qid: 'Wikidata ID',
-    article_id: 'Article ID',
-    article_languages: 'Bahasa Artikel',
-    page_views: 'Total Page Views',
-    average_views: 'Rata-rata Views',
-    historical_popularity_index: 'Indeks Popularitas',
-    // Event properties
-    date: 'Tanggal',
-    month: 'Bulan',
-    year: 'Tahun',
-    place_name: 'Tempat',
-    country: 'Negara',
-    event_type: 'Tipe Event',
-    impact: 'Dampak',
-    outcome: 'Hasil',
-    important_personalities: 'Tokoh Penting',
-    affected_population: 'Populasi Terpengaruh',
-    event_id: 'Event ID',
-    // Other properties
-    city: 'Kota',
-    occupation: 'Pekerjaan',
-    position: 'Posisi',
-    label: 'Label',
-    latitude: 'Latitude',
-    longitude: 'Longitude',
-    domain: 'Domain',
-    industry: 'Industri'
-  };
-
   const skipProperties = ['image_url', 'description', 'abstract', 'name'];
 
   Object.entries(props).forEach(([key, value]) => {
     if (skipProperties.includes(key) || value === null || value === undefined) return;
     
-    const label = propertyMapping[key] || key.split('_').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
+    const label = key
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
     
     let formattedValue = value;
     
     if (typeof value === 'number') {
-      formattedValue = value.toLocaleString('id-ID');
+      formattedValue = value.toLocaleString('en-US');
     } else if (typeof value === 'string' && value.includes('T00:00:00Z')) {
-      formattedValue = new Date(value).toLocaleDateString('id-ID', {
+      formattedValue = new Date(value).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
       });
+    } else if (Array.isArray(value)) {
+      formattedValue = value.join(', ');
     }
     
     formattedFacts.push({ label, value: String(formattedValue) });
