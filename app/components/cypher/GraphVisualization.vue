@@ -146,16 +146,23 @@
             <div
               v-for="[key, value] in Object.entries(selectedEdge)"
               :key="key"
-            
             >
-              <template v-if="!['arrows', 'title', 'color', 'font', 'smooth', 'width', '_type', 'label', 'from', 'to', 'start', 'end', 'type'].includes(key) && !key && !value">
+              <template v-if="!['arrows', 'title', 'color', 'font', 'smooth', 'width', '_type', 'label', 'from', 'to', 'start', 'end', 'type'].includes(key)">
                 <div class="flex items-start justify-between gap-2 py-3">
                   <div class="flex-1 min-w-0">
                     <div class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                      {{ key === '_relId' || key === 'id' ? '&lt;id&gt;' : key }}
+                      {{ key === 'id' ? '&lt;id&gt;' : key }}
                     </div>
                     <div class="text-sm text-gray-900 dark:text-gray-100 break-all">
-                      <template v-if="typeof value === 'object' && value !== null">
+                      <template v-if="key === 'properties' && typeof value === 'object' && value !== null">
+                        <template v-if="Object.keys(value).length === 0">
+                          <span class="text-gray-500 italic">empty</span>
+                        </template>
+                        <template v-else>
+                          <pre class="whitespace-pre-wrap font-mono text-xs bg-gray-100 dark:bg-gray-900 p-2 rounded">{{ JSON.stringify(value, null, 2) }}</pre>
+                        </template>
+                      </template>
+                      <template v-else-if="typeof value === 'object' && value !== null">
                         <pre class="whitespace-pre-wrap font-mono text-xs bg-gray-100 dark:bg-gray-900 p-2 rounded">{{ JSON.stringify(value, null, 2) }}</pre>
                       </template>
                       <template v-else>
@@ -164,7 +171,7 @@
                     </div>
                   </div>
                   <UButton
-                    @click="copyToClipboard(formatValue(value))"
+                    @click="copyToClipboard(typeof value === 'object' ? JSON.stringify(value, null, 2) : formatValue(value))"
                     color="neutral"
                     variant="ghost"
                     icon="i-heroicons-clipboard-document"
