@@ -68,14 +68,6 @@
                   >
                     Table
                   </UButton>
-                  <UButton
-                    @click="viewMode = 'raw'"
-                    :color="viewMode === 'raw' ? 'primary' : 'neutral'"
-                    :variant="viewMode === 'raw' ? 'solid' : 'ghost'"
-                    size="sm"
-                  >
-                    RAW
-                  </UButton>
                 </div>
               </div>
             </div>
@@ -121,10 +113,6 @@
           <div v-else>
               <pre class="overflow-x-auto text-sm bg-elevated rounded-lg p-4">No table data available</pre>
           </div>
-        </div>
-
-        <div v-else-if="viewMode === 'raw'">
-          <pre class="overflow-x-auto text-sm bg-gray-100 dark:bg-gray-900 rounded-lg p-4 max-h-[600px]">{{ rawText }}</pre>
         </div>
     </UCard>
 
@@ -216,18 +204,6 @@ const graphData = computed(() => {
 // Table data from new API format
 const tableData = computed(() => {
   return responseData.value?.table || [];
-});
-
-// Raw text data from new API format
-const rawText = computed(() => {
-  if (!responseData.value?.text) return "";
-  
-  // Format text array as readable output
-  return responseData.value.text.map(row => {
-    return Object.entries(row)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join('\n');
-  }).join('\n\n');
 });
 
 // Columns for table view
